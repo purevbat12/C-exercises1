@@ -1,20 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-int digital_root(int n){
-    int i = 1, temp = n;
-    while(temp > 0){
-        temp = temp - (temp % (int)pow(10, i));
-        printf("%d\n", temp);
-        i++;
+#include <stdbool.h>
+int solve(int size, const int arr[size]){
+    printf("Sorted array:\n");
+    printf("[");
+    for(int i = 0; i < size; i++){
+        printf("%d ", *(arr + i));
     }
-    int digit = i - 1;
-    return digit;
+    printf("]");
+    int count = 0, ret;
+    bool first, last;
+    if(size % 2 == 0){
+        printf("\nThe size is even.");
+        int couples[size / 2];
+        for(int i = 0; i < size / 2; i++){
+            for(int j = 0; j < size; j++){
+                if(*(arr + i) + *(arr + j) == 0){
+                    printf("\n%d + %d = 0", *(arr + i), *(arr + j));
+                    count++;
+                }
+            }
+        }
+        if(size / 2 == count){
+            //printf("")
+            ret = *(arr + size - 1);
+        }
+    }
+    else{
+        printf("\nThe size is not even.");
+        for(int i = 0; i < size; i++){
+            if(*(arr) + *(arr + i) == 0){
+                printf("\nfirst: arr[0] + arr[%d] => %d + %d = %d\n", i, *(arr), *(arr + i), *(arr) + *(arr + i));
+                first = true;
+            }
+            else{
+                printf("\nfirst: arr[0] + arr[%d] => %d + %d =! %d\n", i, *(arr), *(arr + i), 0);
+            }
+            if(*(arr + size - 1) + *(arr + i) == 0){
+                printf("\nlast: arr[%d] + arr[%d] => %d + %d = %d\n", size - 1, *(arr + size - 1), *(arr + i), *(arr + size - 1) + *(arr + i));
+                last = true;
+            }
+            else{
+                printf("\nlast: arr[%d] + arr[%d] => %d + %d =! %d\n", size - 1, i, *(arr + size - 1), *(arr + i), 0);
+            }
+        }
+    }
+    if(first){
+            ret = *(arr + size - 1);
+        }
+        else if(last){
+            ret = *(arr);
+        }
+    return ret;
 }
 int main(){
-    int n = 941;
-    printf("Type your number: ");
-    //scanf("%d", &n);
-    printf("%d", digital_root(n));
+    int size = 6, num, temp;
+    int *arr = NULL;
+    printf("Size of the array: ");
+    scanf("%d", &size);
+    for(int i = 0; i < size; i++){
+        arr = (int*)realloc(arr, sizeof(int) * (i + 1));
+        printf("\nElement arr[%d] = ", i);
+        scanf("%d", &num);
+        *(arr + i) = num;
+    }
+    for(int i = 0; i < size - 1; i++){
+        for(int j = 0; j < size - 1; j++){
+            if(*(arr + j) > *(arr + j + 1)){
+                temp = *(arr + j + 1);
+                *(arr + j + 1) = *(arr + j);
+                *(arr + j) = temp;
+            }
+        }
+    }
+    printf("\n\n%d", solve(size, arr));
     return 0;
 }
