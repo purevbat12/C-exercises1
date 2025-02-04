@@ -12,13 +12,24 @@ int solve(int size, const int arr[size]){
     bool first, last;
     if(size % 2 == 0){
         printf("\nThe size is even.");
-        int couples[size / 2];
-        for(int i = 0; i < size / 2; i++){
+        int couples[(size - 2) / 2][2];
+        for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
                 if(*(arr + i) + *(arr + j) == 0){
                     printf("\n%d + %d = 0", *(arr + i), *(arr + j));
                     count++;
+
+                    couples[count - 1][0] = *(arr + i);
+                    couples[count - 1][1] = *(arr + j);
+                    printf("\ncouples[%d][%d] = %d\n\n", count - 1, 0, *(arr + i));
+                    printf("\ncouples[%d][%d] = %d\n\n Testing!", count - 1, 1, *(arr + j));
                 }
+            }
+        }
+        printf("couples:\n");
+        for(int i = 0; i < size / 2; i++){
+            for(int j = 0; j < 2; j++){
+                printf("couples[%d][%d] = %d\n", i, j, couples[i][j]);
             }
         }
         if(size / 2 == count){
