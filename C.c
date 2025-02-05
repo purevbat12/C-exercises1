@@ -18,22 +18,20 @@ int solve(int size, const int arr[size]){
                 if(*(arr + i) + *(arr + j) == 0){
                     printf("\n%d + %d = 0", *(arr + i), *(arr + j));
                     count++;
-
                     couples[count - 1][0] = *(arr + i);
                     couples[count - 1][1] = *(arr + j);
-                    printf("\ncouples[%d][%d] = %d\n\n", count - 1, 0, *(arr + i));
-                    printf("\ncouples[%d][%d] = %d\n\n Testing!", count - 1, 1, *(arr + j));
+                    printf("\ncouples[%d][%d] = %d\n\n", count - 1, 0, couples[count - 1][0]);
+                    printf("\ncouples[%d][%d] = %d\n\n", count - 1, 1, couples[count - 1][1]);
                 }
             }
         }
         printf("couples:\n");
-        for(int i = 0; i < size / 2; i++){
+        for(int i = 0; i < (size - 2) / 2; i++){
             for(int j = 0; j < 2; j++){
                 printf("couples[%d][%d] = %d\n", i, j, couples[i][j]);
             }
         }
         if(size / 2 == count){
-            //printf("")
             ret = *(arr + size - 1);
         }
     }
