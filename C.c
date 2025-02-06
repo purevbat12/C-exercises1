@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-int solve(int size, const int arr[size]){
+int solve(int size, int arr[size]){
     printf("Sorted array:\n");
     printf("[");
     for(int i = 0; i < size; i++){
@@ -16,23 +16,42 @@ int solve(int size, const int arr[size]){
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
                 if(*(arr + i) + *(arr + j) == 0){
-                    printf("\n%d + %d = 0", *(arr + i), *(arr + j));
                     count++;
-                    couples[count - 1][0] = *(arr + i);
-                    couples[count - 1][1] = *(arr + j);
-                    printf("\ncouples[%d][%d] = %d\n\n", count - 1, 0, couples[count - 1][0]);
-                    printf("\ncouples[%d][%d] = %d\n\n", count - 1, 1, couples[count - 1][1]);
+                    if(count % 2 == 0){
+                        couples[(count) / 2 - 1][0] = *(arr + i);
+                        couples[(count) / 2 - 1][1] = *(arr + j);
+                        printf("\ncouples[%d][%d] = %d\n\n", (count) / 2 - 1, 0, couples[count / 2 - 1][0]);
+                        printf("\ncouples[%d][%d] = %d\n\n", count / 2 - 1, 1, couples[count / 2 - 1][1]);
+                    }
+
                 }
             }
         }
-        printf("couples:\n");
-        for(int i = 0; i < (size - 2) / 2; i++){
-            for(int j = 0; j < 2; j++){
-                printf("couples[%d][%d] = %d\n", i, j, couples[i][j]);
+        int *arr1;
+        arr1 = arr;
+        for(int i = 0; i < sizeof(couples) / sizeof(couples[0]); i++){
+            for(int j = 0; j < sizeof(couples[0]) / sizeof(couples[0][0]); j++){
+                for(int k = 0; k < size; k++){
+                    if(*(arr1 + k) == couples[i][j]){
+                        *(arr1 + k) = 0;
+                    }
+                }
             }
         }
-        if(size / 2 == count){
-            ret = *(arr + size - 1);
+        printf("arr[] = {");
+        for(int i = 0; i < size; i++){
+            if(i == 0){
+                for(int k = 0; k < size; k++){
+                    printf("%d ", *(arr1 + k));
+                }
+                printf("}\n");
+            }
+            if(*(arr + i) != 0){
+                printf("arr[%d] =! 0 => %d =! 0\n", i, *(arr1 + i));
+                ret = *(arr + i);
+                printf("Ret = %d\n\ntesting arr[4] = %d\t", *(arr1 + i), *(arr1 + 4));
+
+            }
         }
     }
     else{
@@ -54,12 +73,6 @@ int solve(int size, const int arr[size]){
             }
         }
     }
-    if(first){
-            ret = *(arr + size - 1);
-        }
-        else if(last){
-            ret = *(arr);
-        }
     return ret;
 }
 int main(){
